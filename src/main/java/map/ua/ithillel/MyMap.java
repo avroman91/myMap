@@ -94,10 +94,10 @@ class MyMap<K, V> implements Iterable<Pair<K, V>> {
 
     public V get(K key) {
         int index = key.hashCode() % 16;
-        Node current = buckets[index];
+        Node<K,V> current = buckets[index];
         while (current != null) {
             if (current.pair.getKey().equals(key)) {
-                return (V) current.pair.getValue();
+                return current.pair.getValue();
             } else {
                 current = current.next;
             }
