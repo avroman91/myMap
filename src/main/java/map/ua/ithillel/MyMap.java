@@ -46,7 +46,7 @@ class MyMap<K, V> implements Iterable<Pair<K, V>> {
         Node<K, V> next;
     }
 
-    private Node<K, V>[] buckets = new Node[16];
+    private final Node<K, V>[] buckets = new Node[16];
 
 
     private int getIndex(K key) {
@@ -57,8 +57,8 @@ class MyMap<K, V> implements Iterable<Pair<K, V>> {
 
         int index = getIndex(key);
 
-        Node<K, V> node = new Node<K, V>();
-        node.pair = new Pair<K, V>(key, value);
+        Node<K, V> node = new Node<>();
+        node.pair = new Pair<>(key, value);
 
         if (buckets[index] == null) buckets[index] = node;
         else {
