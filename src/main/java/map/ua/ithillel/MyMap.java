@@ -79,8 +79,8 @@ class MyMap<K, V> implements Iterable<Pair<K, V>> {
 
 
     public boolean containsKey(K key) {
-        for (Node bucket : buckets) {
-            Node current = bucket;
+        for (Node<K,V> bucket : buckets) {
+            Node<K,V> current = bucket;
             while (current != null) {
                 if (current.pair.getKey().equals(key)) {
                     return true;
@@ -107,8 +107,8 @@ class MyMap<K, V> implements Iterable<Pair<K, V>> {
 
     public String keySet() {
         StringBuilder st = new StringBuilder();
-        for (Node bucket : buckets) {
-            Node current = bucket;
+        for (Node<K,V> bucket : buckets) {
+            Node<K,V> current = bucket;
             while (current != null) {
                 st.append(current.pair.getKey()).append(", ");
                 current = current.next;
