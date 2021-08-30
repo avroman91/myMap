@@ -1,7 +1,9 @@
 package map.ua.ithillel;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 class MyMap<K, V> implements Iterable<Pair<K, V>> {
     @Override
@@ -79,8 +81,8 @@ class MyMap<K, V> implements Iterable<Pair<K, V>> {
 
 
     public boolean containsKey(K key) {
-        for (Node<K,V> bucket : buckets) {
-            Node<K,V> current = bucket;
+        for (Node<K, V> bucket : buckets) {
+            Node<K, V> current = bucket;
             while (current != null) {
                 if (current.pair.getKey().equals(key)) {
                     return true;
@@ -94,7 +96,7 @@ class MyMap<K, V> implements Iterable<Pair<K, V>> {
 
     public V get(K key) {
         int index = key.hashCode() % 16;
-        Node<K,V> current = buckets[index];
+        Node<K, V> current = buckets[index];
         while (current != null) {
             if (current.pair.getKey().equals(key)) {
                 return current.pair.getValue();
@@ -105,17 +107,15 @@ class MyMap<K, V> implements Iterable<Pair<K, V>> {
         return null;
     }
 
-    public String keySet() {
-        StringBuilder st = new StringBuilder();
-        for (Node<K,V> bucket : buckets) {
-            Node<K,V> current = bucket;
+    public Set<K> keySet() {
+        Set<K> set = new HashSet<>();
+        for (Node<K, V> bucket : buckets) {
+            Node<K, V> current = bucket;
             while (current != null) {
-                st.append(current.pair.getKey()).append(", ");
+                set.add(current.pair.getKey());
                 current = current.next;
             }
         }
-        st.delete(st.length()-2,st.length()).append(".");
-        return st.toString();
+        return set;
     }
-
 }
