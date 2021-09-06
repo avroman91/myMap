@@ -6,7 +6,7 @@ import java.util.Set;
 
 class MyMap<K, V> {
 
-    public static class Node<K, V> {
+    static class Node<K, V> {
         Map.Entry<K, V> pair;
         Node<K, V> next;
 
