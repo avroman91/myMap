@@ -8,13 +8,14 @@ public class Main {
         myMap.put("petia", 5);
         myMap.put("oleh", 3);
         myMap.put("petia", 1);
-        System.out.println(myMap.containsKey("oleg"));
+        System.out.println(myMap.containsKey("oleh"));
         System.out.println(myMap.get("petia"));
         System.out.println(myMap.keySet());
 
-        for (Pair<String, Integer> i : myMap) {
+        for (MyMap.Node<String, Integer> i : myMap.entrySet) {
             System.out.println(i);
         }
+
     }
 
 

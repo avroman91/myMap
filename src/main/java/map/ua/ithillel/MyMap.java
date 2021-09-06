@@ -1,55 +1,31 @@
 package map.ua.ithillel;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-class MyMap<K, V> implements Iterable<Pair<K, V>> {
-    @Override
-    public Iterator<Pair<K, V>> iterator() {
-        return new Iterator<>() {
-            int index;
-            Node<K, V> current;
+class MyMap<K, V>  {
 
-            {
-                index = getNextHeadIndex(-1);
-                if (index != -1) current = buckets[index];
-            }
-
-            private int getNextHeadIndex(int currentHead) {
-                for (int i = currentHead + 1; i < buckets.length; i++) {
-                    if (buckets[i] != null) return i;
-                }
-                return -1;
-            }
-
-            @Override
-            public boolean hasNext() {
-                return current != null;
-            }
-
-            @Override
-            public Pair<K, V> next() {
-                Pair<K, V> value = (Pair<K, V>) current.pair;
-                current = current.next;
-                if (current == null) {
-                    index = getNextHeadIndex(index);
-                    if (index != -1) current = buckets[index];
-                }
-                return value;
-            }
-
-        };
-    }
-
-    private static class Node<K, V> {
+    public static class Node<K, V> {
         Map.Entry<K, V> pair;
         Node<K, V> next;
+
+        public Map.Entry<K, V> getPair() {
+            return pair;
+        }
+
+        public void setPair(Map.Entry<K, V> pair) {
+            this.pair = pair;
+        }
+
+        @Override
+        public String toString() {
+            return pair.toString();
+        }
     }
 
     private final Node<K, V>[] buckets = new Node[16];
-    public  Set<Node<K,V>> entrySet ; //Тут надо что-то делать
+    public Set<Node<K,V>> entrySet = new HashSet<>(); //Тут надо что-то делать
 
 
     private int getIndex(K key) {
@@ -63,16 +39,25 @@ class MyMap<K, V> implements Iterable<Pair<K, V>> {
         Node<K, V> node = new Node<>();
         node.pair = new Pair<>(key, value);
 
-        if (buckets[index] == null) buckets[index] = node;
+        if (buckets[index] == null) {
+            buckets[index] = node;
+            entrySet.add(node);
+        }
         else {
             Node<K, V> current = buckets[index];
             while (current != null) {
                 if (current.pair.getKey().equals(key)) {
                     current.pair = node.pair;
+                    for (Node<K, V> kvNode : entrySet) { //тут начинается дичь
+                        if(kvNode.getPair().getKey() == current.pair.getKey()){
+                            kvNode.setPair(node.pair);
+                        }
+                    }  // тут заканчивается
                     break;
                 }
                 if (current.next == null) {
                     current.next = node;
+                    entrySet.add(node);
                     break;
                 }
                 current = current.next;
