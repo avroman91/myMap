@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-class MyMap<K, V>  {
+class MyMap<K, V> {
 
     public static class Node<K, V> {
         Map.Entry<K, V> pair;
@@ -25,7 +25,7 @@ class MyMap<K, V>  {
     }
 
     private final Node<K, V>[] buckets = new Node[16];
-    public Set<Node<K,V>> entrySet = new HashSet<>(); //Тут надо что-то делать
+    public Set<Node<K, V>> entrySet = new HashSet<>();
 
 
     private int getIndex(K key) {
@@ -42,17 +42,16 @@ class MyMap<K, V>  {
         if (buckets[index] == null) {
             buckets[index] = node;
             entrySet.add(node);
-        }
-        else {
+        } else {
             Node<K, V> current = buckets[index];
             while (current != null) {
                 if (current.pair.getKey().equals(key)) {
                     current.pair = node.pair;
-                    for (Node<K, V> kvNode : entrySet) { //тут начинается дичь
-                        if(kvNode.getPair().getKey() == current.pair.getKey()){
+                    for (Node<K, V> kvNode : entrySet) {
+                        if (kvNode.getPair().getKey() == current.pair.getKey()) {
                             kvNode.setPair(node.pair);
                         }
-                    }  // тут заканчивается
+                    }
                     break;
                 }
                 if (current.next == null) {
@@ -103,17 +102,5 @@ class MyMap<K, V>  {
             }
         }
         return keySet;
-    }
-
-    public Set<Node<K, V>> entrySet() {
-        Set<Node<K, V>> entrySet = new HashSet<>();
-        for (Node<K, V> bucket : buckets) {
-            Node<K, V> current = bucket;
-            while (current != null) {
-                entrySet.add(current);
-                current = current.next;
-            }
-        }
-        return entrySet;
     }
 }
