@@ -53,7 +53,7 @@ class MyMap<K, V> implements Iterable<Pair<K, V>> {
 
 
     private int getIndex(K key) {
-        return key.hashCode() % buckets.length;
+        return Math.abs(key.hashCode()) % buckets.length;
     }
 
     public void put(K key, V value) {
@@ -62,7 +62,6 @@ class MyMap<K, V> implements Iterable<Pair<K, V>> {
 
         Node<K, V> node = new Node<>();
         node.pair = new Pair<>(key, value);
-        entrySet.add(node); //тут надо что-то делать и учесть что не всегда создается новый элемент
 
         if (buckets[index] == null) buckets[index] = node;
         else {
@@ -121,15 +120,15 @@ class MyMap<K, V> implements Iterable<Pair<K, V>> {
         return keySet;
     }
 
-//    public Set<Node<K, V>> entrySet() {
-//        Set<Node<K, V>> entrySet = new HashSet<>();
-//        for (Node<K, V> bucket : buckets) {
-//            Node<K, V> current = bucket;
-//            while (current != null) {
-//                entrySet.add(current);
-//                current = current.next;
-//            }
-//        }
-//        return entrySet;
-//    }
+    public Set<Node<K, V>> entrySet() {
+        Set<Node<K, V>> entrySet = new HashSet<>();
+        for (Node<K, V> bucket : buckets) {
+            Node<K, V> current = bucket;
+            while (current != null) {
+                entrySet.add(current);
+                current = current.next;
+            }
+        }
+        return entrySet;
+    }
 }
